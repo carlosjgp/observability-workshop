@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: observability-demo-app
+  name: observability-demo-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: observability-demo-app
+  template:
+    metadata:
+      labels:
+        app: observability-demo-app
+    spec:
+      containers:
+        - name: curl
+          image: curlimages/curl:7.71.0
+          command:
+            - sh
+            - -c
+          args:
+            - |-
+              watch -n 5 curl --silent localhost:8080
+          resources: {}
+        - image: carlosjgp/observability-demo-app:latest
+          name: observability-demo-app
+          imagePullPolicy: Always
+          env:
+            - name: JAEGER_ENDPOINT
+              value: "jaeger-op-jaeger-operator-jaeger-agent.tracing:6831"
+          ports:
+            - containerPort: 9090
+              name: metrics
+            - containerPort: 8080
+              name: http
+          resources: {}

@@ -1,0 +1,69 @@
+prometheusOperator:
+  createCustomResource: false
+  admissionWebhooks:
+    enabled: false
+  tlsProxy:
+    enabled: false
+
+prometheus:
+  ingress:
+    enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+    paths:
+    - /prometheus(/|$)(.*)
+  prometheusSpec:
+    externalUrl: http://localhost/prometheus
+    image:
+      tag: v2.20.1
+
+alertmanager:
+  ingress:
+    enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+    paths:
+    - /alertmanager(/|$)(.*)
+  alertmanagerSpec:
+    externalUrl: http://localhost/alertmanager
+
+grafana:
+  image:
+    tag: 7.1.4
+  ingress:
+    enabled: true
+    path: /grafana
+
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Jaeger
+          type: jaeger
+          uid: jaeger
+          url: http://jaeger-op-jaeger-operator-jaeger-query.tracing:16686
+          access: proxy
+          isDefault: false
+        - name: Loki
+          type: loki
+          url: http://loki.logging:3100
+          access: proxy
+          isDefault: false
+          jsonData:
+            maxLines: 1000
+            derivedFields:
+              - name: "TraceID"
+                matcherRegex: "traceID=(\\w+)"
+                url: "$${__value.raw}"
+                datasourceUid: jaeger
+
+  sidecar:
+    datasources:
+      enabled: true
+  grafana.ini:
+    server:
+      domain: localhost
+      root_url: "%(protocol)s://%(domain)s/grafana"
+      serve_from_sub_path: true
+  admin:
+    existingSecret: grafana-admin

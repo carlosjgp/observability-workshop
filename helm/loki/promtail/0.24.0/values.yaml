@@ -1,0 +1,7 @@
+loki:
+  serviceName: "loki"
+
+config:
+  client:
+    external_labels:
+      cluster: local
