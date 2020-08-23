@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  labels:
+    app: observability-demo-app
+  name: observability-demo-app
+spec:
+  podMetricsEndpoints:
+  - port: metrics
+    relabelings:
+    - action: labelmap
+      regex: __meta_kubernetes_pod_label_(.+)
+  selector:
+    matchLabels:
+      app: observability-demo-app

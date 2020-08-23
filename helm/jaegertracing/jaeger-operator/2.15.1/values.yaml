@@ -1,10 +1,5 @@
 jaeger:
-  create: true
-  spec:
-    apiVersion: jaegertracing.io/v1
-    kind: Jaeger
-    metadata:
-    name: simplest
+  create: false
 
 crd:
   install: false

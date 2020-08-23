@@ -5,6 +5,16 @@ prometheusOperator:
   tlsProxy:
     enabled: false
 
+defaultRules:
+  rules:
+    etcd: false
+
+kubeEtcd:
+  enabled: false
+
+kubeProxy:
+  enabled: false
+
 prometheus:
   ingress:
     enabled: true
@@ -16,6 +26,8 @@ prometheus:
     externalUrl: http://localhost/prometheus
     image:
       tag: v2.20.1
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
 
 alertmanager:
   ingress:
@@ -34,6 +46,10 @@ grafana:
     enabled: true
     path: /grafana
 
+  sidecar:
+    dashboards:
+      searchNamespace: ALL
+
   datasources:
     datasources.yaml:
       apiVersion: 1
@@ -41,7 +57,7 @@ grafana:
         - name: Jaeger
           type: jaeger
           uid: jaeger
-          url: http://jaeger-op-jaeger-operator-jaeger-query.tracing:16686
+          url: http://all-in-one-query.tracing:16686/jaeger
           access: proxy
           isDefault: false
         - name: Loki
@@ -57,9 +73,6 @@ grafana:
                 url: "$${__value.raw}"
                 datasourceUid: jaeger
 
-  sidecar:
-    datasources:
-      enabled: true
   grafana.ini:
     server:
       domain: localhost

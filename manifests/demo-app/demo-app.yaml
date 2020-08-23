@@ -30,7 +30,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: JAEGER_ENDPOINT
-              value: "jaeger-op-jaeger-operator-jaeger-agent.tracing:6831"
+              value: "all-in-one-agent.tracing:6831"
           ports:
             - containerPort: 9090
               name: metrics
