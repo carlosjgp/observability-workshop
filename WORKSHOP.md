@@ -55,6 +55,10 @@ $ helm upgrade --install --wait \
     jaegertracing/jaeger-operator
 ```
 
+```shell
+$ kubectl apply -f ./manifests/jaeger/
+```
+
 ### Loki and Promtail
 
 ```shell
@@ -80,5 +84,5 @@ $ helm upgrade --install --wait \
 ### Demo application
 
 ```shell
-kubectl apply -f ./deployments/demo-app.yaml
+kubectl apply -f ./manifests/demo-app.yaml
 ```

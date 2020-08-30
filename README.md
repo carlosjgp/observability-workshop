@@ -8,7 +8,6 @@
 - [Jaeger Operator - Distributed tracing](https://hub.helm.sh/charts/jaegertracing/jaeger-operator)
 - [Loki - Logs](https://hub.helm.sh/charts/loki/loki)
 - [Grafana - Dashboarding](https://hub.helm.sh/charts/stable/grafana)
-- [Mattermost - Slack like instant messaging application](https://hub.helm.sh/charts/mattermost/mattermost-team-edition)
 
 ### Create Kuberneste cluster for testing
 
@@ -65,20 +64,12 @@ $ helm repo add loki https://grafana.github.io/loki/charts
 "loki" has been added to your repositories
 ```
 
-Mattermost
-
-```shell
-$ helm repo add mattermost https://helm.mattermost.com
-"mattermost" has been added to your repositories
-```
-
 Update all repos just adding them doesn't make the charts on the repostiries available
 
 ```shell
 $ helm repo up
 Hang tight while we grab the latest from your chart repositories...
 ...Successfully got an update from the "jaegertracing" chart repository
-...Successfully got an update from the "mattermost" chart repository
 ...Successfully got an update from the "loki" chart repository
 ...Successfully got an update from the "stable" chart repository
 Update Complete. ⎈ Happy Helming!⎈
