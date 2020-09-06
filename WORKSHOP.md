@@ -84,5 +84,5 @@ $ helm upgrade --install --wait \
 ### Demo application
 
 ```shell
-kubectl apply -f ./manifests/demo-app.yaml
+$ kubectl apply -f ./manifests/demo-app/
 ```

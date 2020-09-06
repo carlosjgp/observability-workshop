@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: demo-recordingrule
+spec:
+  groups:
+    - name: DemoApp
+      rules:
+        - record: process:start:minutes
+          expr: process_start_time_seconds{app="observability-demo-app"} / 60
+        - alert: DemoAppJustStarted
+          expr: (process:start:minutes < 5) AND (process:start:minutes > 3)
+    - name: DemoAppRecordingRule
+      rules:
+        - record: process:start:hours
+          expr: process:start:minutes / 60
+    - name: DemoAppAlerts
+      rules:
+        - alert: DemoAppRunningForTooLong
+          expr: (process:start:hours > 1) AND (process:start:minutes < 65)

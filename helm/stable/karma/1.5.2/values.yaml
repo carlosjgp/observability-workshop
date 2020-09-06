@@ -1,0 +1,34 @@
+ingress:
+  enabled: true
+  paths:
+  - /karma
+  hosts:
+  - '*'
+
+configMap:
+  enabled: true
+  rawConfig:
+    alertmanager:
+      interval: 30s
+      servers:
+        - name: default
+          uri: http://alertmanager-operated.monitoring:9093
+          proxy: true
+          external_uri: http://localhost/alertmanager
+          timeout: 3s
+          readonly: false
+    labels:
+      color:
+        static:
+          - job
+        unique:
+          - cluster
+          - instance
+          - "@receiver"
+    listen:
+      address: "0.0.0.0"
+      port: 8080
+      prefix: /karma
+
+livenessProbe:
+  path: /karma/health

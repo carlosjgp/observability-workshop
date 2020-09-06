@@ -28,6 +28,7 @@ prometheus:
       tag: v2.20.1
     serviceMonitorSelectorNilUsesHelmValues: false
     podMonitorSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
 
 alertmanager:
   ingress:
@@ -38,6 +39,20 @@ alertmanager:
     - /alertmanager(/|$)(.*)
   alertmanagerSpec:
     externalUrl: http://localhost/alertmanager
+
+  config:
+    global:
+      slack_api_url: https://hooks.slack.com/services/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
+
+    route:
+      receiver: 'slack'
+      routes: []
+
+    receivers:
+    - name: 'slack'
+      slack_configs:
+      - channel: '#alerts'
+        send_resolved: true
 
 grafana:
   image:
